@@ -14,6 +14,20 @@ object UsersInMemory {
 
           override def exists(id: Nickname): IO[Boolean] =
             database.get.map(m => m.contains(id))
+
+          override def get(nickname: Nickname): IO[User] =
+            database.get.flatMap(m =>
+              m.collectFirst{
+                case (nick, name) if nick == nickname =>
+                  User(name, nick)
+              }.liftTo[IO](UserNotFound(nickname))
+            )
+
+          override def update(user: User): IO[Unit] =
+            exists(user.nickname).ifM(
+              ifTrue = database.update(m => m + (user.nickname -> user.username)),
+              ifFalse = IO.raiseError(UserNotFound(user.nickname))
+            )
         }
     })
   }

@@ -12,4 +12,5 @@ object user {
 
   final case class UserAlreadyRegistered(id: Nickname) extends NoStackTrace
 
+  final case class UserNotFound(id: Nickname) extends NoStackTrace
 }
