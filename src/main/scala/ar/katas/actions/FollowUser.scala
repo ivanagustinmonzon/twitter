@@ -10,10 +10,9 @@ trait FollowUser {
 }
 
 object FollowUser{
-  def make(followsUserService: FollowsService): FollowUser ={
+  def make(followsUserService: FollowsService): FollowUser =
       (followerId: Nickname, followeeId: Nickname) =>
         followsUserService.create(
           Following(FollowerId(followerId.value), FolloweeId(followeeId.value))
         )
-  }
 }

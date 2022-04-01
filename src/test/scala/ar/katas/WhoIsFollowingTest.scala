@@ -1,19 +1,18 @@
 package ar.katas
 
-import ar.katas.actions.{FollowUser, RegisterUser}
-import ar.katas.domain.following.{FolloweeId, FollowerId}
-import ar.katas.domain.{FollowsService, UsersService}
+import ar.katas.actions.{FollowUser, RegisterUser, WhoIsFollowing}
+import ar.katas.domain._
 import ar.katas.domain.user._
 import ar.katas.infrastructure.{FollowsInMemory, UsersInMemory}
-import cats.effect.IO
 import munit.CatsEffectSuite
 
-class FollowUserTest extends CatsEffectSuite{
+class WhoIsFollowingTest extends CatsEffectSuite {
 
-  test("A user can follow other users") {
+  test("Anyone can ask who is following who") {
     val john = User(Username("Jhon Bauer"), Nickname("@jb"))
     val jake = User(Username("Jake Doe"), Nickname("@jd"))
     val jane = User(Username("Jane Perez"), Nickname("@jp"))
+    val expectedList = List(jake, jane)
 
     for {
       users <- UsersInMemory.make
@@ -31,10 +30,9 @@ class FollowUserTest extends CatsEffectSuite{
       _ <- follow.exec(john.nickname, jake.nickname)
       _ <- follow.exec(john.nickname, jane.nickname)
 
+      whosFollowing = WhoIsFollowing.make(followsService)
+      list <- whosFollowing.exec(john.nickname)
 
-      isFollowing1 <- follows.isFollowing(FollowerId(john.nickname.value), FolloweeId(jake.nickname.value))
-      isFollowing2 <- follows.isFollowing(FollowerId(john.nickname.value), FolloweeId(jane.nickname.value))
-
-    } yield assert(isFollowing1 && isFollowing2)
+    } yield assert(list.forall(user => expectedList.contains(user)))
   }
 }
