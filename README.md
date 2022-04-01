@@ -46,3 +46,7 @@ You will build a basic Twitter application following a set of restrictions on ea
 * A user can tweet. Other users can read all tweets of a user knowing his username.
 
 
+#### Assumptions
+ - A user can register any nickname (not just '@' starting)
+ - A user cannot change its nickname
+ - Persistence shared across multiple fibers (concurrent)
