@@ -9,7 +9,7 @@ trait FollowsService {
   def findAllFollowees(idFollower: FollowerId): IO[List[User]]
 }
 
-import cats.syntax.all._
+import cats.syntax.traverse._
 object FollowsService{
   def make(follows: Follows, users: Users): FollowsService = new FollowsService {
     override def create(following: Following): IO[Unit] =
@@ -17,8 +17,8 @@ object FollowsService{
 
     override def findAllFollowees(idFollower: FollowerId): IO[List[User]] =
       follows.getFollowees(idFollower)
-        .flatMap(list => list.traverse(id =>
-          users.get(Nickname(id.value))
+        .flatMap(followees => followees.traverse(followeeId =>
+          users.get(Nickname(followeeId.value))
         ))
   }
 }

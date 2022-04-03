@@ -17,20 +17,18 @@ class FollowUserTest extends CatsEffectSuite{
 
     for {
       users <- UsersInMemory.make
+      follows <- FollowsInMemory.make
       usersService = UsersService.make(users)
+      followsService = FollowsService.make(follows, users)
       register = RegisterUser.make(usersService)
+      follow = FollowUser.make(followsService)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)
       _ <- register.exec(jane)
 
-      follows <- FollowsInMemory.make
-      followsService = FollowsService.make(follows, users)
-      follow = FollowUser.make(followsService)
-
       _ <- follow.exec(john.nickname, jake.nickname)
       _ <- follow.exec(john.nickname, jane.nickname)
-
 
       isFollowing1 <- follows.isFollowing(FollowerId(john.nickname.value), FolloweeId(jake.nickname.value))
       isFollowing2 <- follows.isFollowing(FollowerId(john.nickname.value), FolloweeId(jane.nickname.value))

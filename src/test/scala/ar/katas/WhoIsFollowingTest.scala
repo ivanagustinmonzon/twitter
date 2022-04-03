@@ -16,21 +16,20 @@ class WhoIsFollowingTest extends CatsEffectSuite {
 
     for {
       users <- UsersInMemory.make
+      follows <- FollowsInMemory.make
       usersService = UsersService.make(users)
+      followsService = FollowsService.make(follows, users)
       register = RegisterUser.make(usersService)
+      follow = FollowUser.make(followsService)
+      whosFollowing = WhoIsFollowing.make(followsService)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)
       _ <- register.exec(jane)
 
-      follows <- FollowsInMemory.make
-      followsService = FollowsService.make(follows, users)
-      follow = FollowUser.make(followsService)
-
       _ <- follow.exec(john.nickname, jake.nickname)
       _ <- follow.exec(john.nickname, jane.nickname)
 
-      whosFollowing = WhoIsFollowing.make(followsService)
       list <- whosFollowing.exec(john.nickname)
 
     } yield assert(list.forall(user => expectedList.contains(user)))
