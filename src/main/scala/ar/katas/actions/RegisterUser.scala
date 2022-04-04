@@ -5,10 +5,9 @@ import ar.katas.domain.user.User
 import cats.effect.IO
 
 trait RegisterUser {
-  def exec(user:User): IO[Unit]
+  def exec(user: User): IO[Unit]
 }
-object RegisterUser{
-  def make(usersService:UsersService): RegisterUser =
-      (user: User) =>
-        usersService.register(user)
+object RegisterUser {
+  def make(usersService: UsersService): RegisterUser =
+    (user: User) => usersService.register(user)
 }

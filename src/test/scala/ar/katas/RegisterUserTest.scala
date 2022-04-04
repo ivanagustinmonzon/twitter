@@ -10,17 +10,19 @@ class RegisterUserTest extends CatsEffectSuite {
 
   test("A user can register with his real name and nickname") {
     val user = User(Username("fala"), Nickname("Jorge"))
-    for{
-      users  <- UsersInMemory.make
+    for {
+      users <- UsersInMemory.make
       usersService = UsersService.make(users)
       register = RegisterUser.make(usersService)
 
-      _           <- register.exec(user)
-      registered  <- users.exists(user.nickname)
+      _ <- register.exec(user)
+      registered <- users.exists(user.nickname)
     } yield assert(registered)
   }
 
-  test("If another person has been already registered using the same nickname return error"){
+  test(
+    "If another person has been already registered using the same nickname return error"
+  ) {
     val alreadyRegistered = UserAlreadyRegistered(Nickname("@jack"))
     val user = User(Username("Jack Bauer"), Nickname("@jack"))
 

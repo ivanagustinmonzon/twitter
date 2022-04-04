@@ -8,8 +8,7 @@ trait UpdateUser {
   def exec(user: User): IO[Unit]
 }
 
-object UpdateUser{
-  def make(usersService: UsersService):UpdateUser =
-    (user: User) =>
-      usersService.update(user)
+object UpdateUser {
+  def make(usersService: UsersService): UpdateUser =
+    (user: User) => usersService.update(user)
 }

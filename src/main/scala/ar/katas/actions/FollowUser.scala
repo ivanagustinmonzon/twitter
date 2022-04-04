@@ -9,10 +9,10 @@ trait FollowUser {
   def exec(followerId: Nickname, followeeId: Nickname): IO[Unit]
 }
 
-object FollowUser{
+object FollowUser {
   def make(followsUserService: FollowsService): FollowUser =
-      (followerId: Nickname, followeeId: Nickname) =>
-        followsUserService.create(
-          Following(FollowerId(followerId.value), FolloweeId(followeeId.value))
-        )
+    (followerId: Nickname, followeeId: Nickname) =>
+      followsUserService.create(
+        Following(FollowerId(followerId.value), FolloweeId(followeeId.value))
+      )
 }

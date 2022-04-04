@@ -10,15 +10,19 @@ trait FollowsService {
 }
 
 import cats.syntax.traverse._
-object FollowsService{
-  def make(follows: Follows, users: Users): FollowsService = new FollowsService {
-    override def create(following: Following): IO[Unit] =
-      follows.persistFollowing(following.followerId, following.followeeId)
+object FollowsService {
+  def make(follows: Follows, users: Users): FollowsService =
+    new FollowsService {
+      override def create(following: Following): IO[Unit] =
+        follows.persistFollowing(following.followerId, following.followeeId)
 
-    override def findAllFollowees(idFollower: FollowerId): IO[List[User]] =
-      follows.getFollowees(idFollower)
-        .flatMap(followees => followees.traverse(followeeId =>
-          users.get(Nickname(followeeId.value))
-        ))
-  }
+      override def findAllFollowees(idFollower: FollowerId): IO[List[User]] =
+        follows
+          .getFollowees(idFollower)
+          .flatMap(followees =>
+            followees.traverse(followeeId =>
+              users.get(Nickname(followeeId.value))
+            )
+          )
+    }
 }

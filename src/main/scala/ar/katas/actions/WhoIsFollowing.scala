@@ -9,8 +9,8 @@ trait WhoIsFollowing {
   def exec(followerId: Nickname): IO[List[User]]
 }
 
-object WhoIsFollowing{
+object WhoIsFollowing {
   def make(followsService: FollowsService): WhoIsFollowing =
-      (followerId: Nickname) =>
-        followsService.findAllFollowees(FollowerId(followerId.value))
+    (followerId: Nickname) =>
+      followsService.findAllFollowees(FollowerId(followerId.value))
 }
