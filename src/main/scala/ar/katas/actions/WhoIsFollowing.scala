@@ -1,16 +1,23 @@
 package ar.katas.actions
 
-import ar.katas.domain.FollowsService
 import ar.katas.domain.following.FollowerId
 import ar.katas.domain.user.{Nickname, User}
+import ar.katas.domain.{Follows, Users}
 import cats.effect.IO
+import cats.syntax.traverse._
 
 trait WhoIsFollowing {
   def exec(followerId: Nickname): IO[List[User]]
 }
 
 object WhoIsFollowing {
-  def make(followsService: FollowsService): WhoIsFollowing =
+  def make(follows: Follows, users: Users): WhoIsFollowing =
     (followerId: Nickname) =>
-      followsService.findAllFollowees(FollowerId(followerId.value))
+      follows
+        .getFollowees(FollowerId(followerId.value))
+        .flatMap(followees =>
+          followees.traverse(followeeId =>
+            users.get(Nickname(followeeId.value))
+          )
+        )
 }

@@ -1,7 +1,7 @@
 package ar.katas.actions
 
-import ar.katas.domain.UsersService
-import ar.katas.domain.user.User
+import ar.katas.domain.Users
+import ar.katas.domain.user.{User, UserNotFound}
 import cats.effect.IO
 
 trait UpdateUser {
@@ -9,6 +9,12 @@ trait UpdateUser {
 }
 
 object UpdateUser {
-  def make(usersService: UsersService): UpdateUser =
-    (user: User) => usersService.update(user)
+  def make(users: Users): UpdateUser =
+    (user: User) =>
+      users
+        .exists(user.nickname)
+        .ifM(
+          ifTrue = users.update(user),
+          ifFalse = IO.raiseError(UserNotFound(user.nickname))
+        )
 }

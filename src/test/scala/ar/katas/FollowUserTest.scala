@@ -3,7 +3,6 @@ package ar.katas
 import ar.katas.actions.{FollowUser, RegisterUser}
 import ar.katas.domain.following.{FolloweeId, FollowerId}
 import ar.katas.domain.user._
-import ar.katas.domain.{FollowsService, UsersService}
 import ar.katas.infrastructure.{FollowsInMemory, UsersInMemory}
 import munit.CatsEffectSuite
 
@@ -17,10 +16,8 @@ class FollowUserTest extends CatsEffectSuite {
     for {
       users <- UsersInMemory.make
       follows <- FollowsInMemory.make
-      usersService = UsersService.make(users)
-      followsService = FollowsService.make(follows, users)
-      register = RegisterUser.make(usersService)
-      follow = FollowUser.make(followsService)
+      register = RegisterUser.make(users)
+      follow = FollowUser.make(follows)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)

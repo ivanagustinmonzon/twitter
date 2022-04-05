@@ -1,7 +1,7 @@
 package ar.katas.actions
 
-import ar.katas.domain.FollowsService
-import ar.katas.domain.following.{FolloweeId, FollowerId, Following}
+import ar.katas.domain.Follows
+import ar.katas.domain.following.{FolloweeId, FollowerId}
 import ar.katas.domain.user.Nickname
 import cats.effect.IO
 
@@ -10,9 +10,10 @@ trait FollowUser {
 }
 
 object FollowUser {
-  def make(followsUserService: FollowsService): FollowUser =
+  def make(follows: Follows): FollowUser =
     (followerId: Nickname, followeeId: Nickname) =>
-      followsUserService.create(
-        Following(FollowerId(followerId.value), FolloweeId(followeeId.value))
+      follows.persistFollowing(
+        FollowerId(followerId.value),
+        FolloweeId(followeeId.value)
       )
 }

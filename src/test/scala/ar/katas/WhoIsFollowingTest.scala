@@ -1,7 +1,6 @@
 package ar.katas
 
 import ar.katas.actions.{FollowUser, RegisterUser, WhoIsFollowing}
-import ar.katas.domain._
 import ar.katas.domain.user._
 import ar.katas.infrastructure.{FollowsInMemory, UsersInMemory}
 import munit.CatsEffectSuite
@@ -17,11 +16,9 @@ class WhoIsFollowingTest extends CatsEffectSuite {
     for {
       users <- UsersInMemory.make
       follows <- FollowsInMemory.make
-      usersService = UsersService.make(users)
-      followsService = FollowsService.make(follows, users)
-      register = RegisterUser.make(usersService)
-      follow = FollowUser.make(followsService)
-      whosFollowing = WhoIsFollowing.make(followsService)
+      whosFollowing = WhoIsFollowing.make(follows, users)
+      register = RegisterUser.make(users)
+      follow = FollowUser.make(follows)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)

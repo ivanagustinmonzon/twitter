@@ -1,7 +1,6 @@
 package ar.katas
 
 import ar.katas.actions.{RegisterUser, UpdateUser}
-import ar.katas.domain.UsersService
 import ar.katas.domain.user._
 import ar.katas.infrastructure.UsersInMemory
 import munit.CatsEffectSuite
@@ -14,9 +13,8 @@ class UpdateUserTest extends CatsEffectSuite {
 
     val exec = for {
       users <- UsersInMemory.make
-      usersService = UsersService.make(users)
-      register = RegisterUser.make(usersService)
-      update = UpdateUser.make(usersService)
+      register = RegisterUser.make(users)
+      update = UpdateUser.make(users)
 
       _ <- register.exec(user)
       _ <- update.exec(updatedUser)
