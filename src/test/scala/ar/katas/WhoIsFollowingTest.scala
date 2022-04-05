@@ -11,7 +11,6 @@ class WhoIsFollowingTest extends CatsEffectSuite {
     val john = User(Username("Jhon Bauer"), Nickname("@jb"))
     val jake = User(Username("Jake Doe"), Nickname("@jd"))
     val jane = User(Username("Jane Perez"), Nickname("@jp"))
-    val expectedList = List(jake, jane)
 
     for {
       users <- UsersInMemory.make
@@ -27,8 +26,9 @@ class WhoIsFollowingTest extends CatsEffectSuite {
       _ <- follow.exec(john.nickname, jake.nickname)
       _ <- follow.exec(john.nickname, jane.nickname)
 
-      list <- whosFollowing.exec(john.nickname)
+      followees <- whosFollowing.exec(john.nickname)
+      expectedFollowees = List(jake, jane)
 
-    } yield assert(list.forall(user => expectedList.contains(user)))
+    } yield assert(expectedFollowees.forall(user => followees.contains(user)))
   }
 }
