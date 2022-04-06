@@ -50,3 +50,66 @@ You will build a basic Twitter application following a set of restrictions on ea
  - A user can register any nickname (not just '@' starting)
  - A user cannot change its nickname
  - Persistence shared across multiple fibers (concurrent)
+ - Cannot store user list of followers/following in a single item (scalability). 
+    i.e following and followed are separated entities in persistence
+
+# Persistence model 
+    
+### Entities and relationships
+
+    User{
+        nickname
+        realname
+    }
+
+    Follow{
+        follower_id
+        followee_id
+    }
+
+    users - 0..n -> followees
+    users - 0..n -> followers
+
+### access patterns
+
+    User:
+        - register user                     = PK=USER#johnbauer1 , SK=USER#johnbauer1
+        - update user                       = PK=USER#johnbauer1 , SK=USER#johnbauer1
+    Follow:
+        - follow a user                     = PK=USER#janedoe    , SK=FOLLOWED#johnbauer
+        - find all followees from a user    = PK=USER#johnbauer1 , SK=FOLLOWED#
+    Tweet*:
+        - A user can tweet                  = PK=USER#<nickname> , SK=TWEET#<tweet-id>
+        - Read tweets from user             = PK=USER#<nickname> , SK=TWEET#
+
+### data modeling
+
+| Entity   | Paritition key (PK) |        Sort key (SK) |                              Attributes |
+|----------|:-------------------:|---------------------:|----------------------------------------:|
+| User     |  USER#\<nickname>   |     USER#\<nickname> |                        realname: String |
+| Followed |  USER#\<nickname>   | FOLLOWED#\<nickname> |                       timestamp: String | max= 400kb
+| Tweet*   |  USER#\<nickname>   |    TWEET#\<tweet-id> | message: String,<br/> timestamp: String |
+
+
+
+| Paritition key (PK) |      Sort key (SK) |                   Attributes |
+|:-------------------:|-------------------:|-----------------------------:|
+|   USER#johnbauer1   |    USER#johnbauer1 |                   John Bauer |
+|  USER#juliarobers2  |  USER#juliarobers2 |                 Julia Robers |
+|  USER#juliarobers2  | FOLLOWED#johnbauer |                 202204071222 |
+|  USER#johnbauer1*   |       TWEET#123abc | Hello twitter!, 202204071322 |
+
+
+
+
+To-Do:
+DONE- Terminar la relacion el modelado de base
+DONE - Levantar docker
+DONE - Conectar una cli para tirar comandos (o UI)
+- Test integracion
+- Correr las queries de usuarios y follows en un branch
+- Correr los tests
+
+Objetivo del dia:
+Terminar la persistencia
+
