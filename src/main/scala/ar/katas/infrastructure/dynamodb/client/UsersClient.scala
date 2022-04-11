@@ -10,6 +10,7 @@ import meteor._
 import meteor.api.hi.CompositeTable
 import meteor.codec.Codec
 import meteor.dynosaur.formats.conversions._
+import meteor.syntax.RichWriteAttributeValue
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 
 object UsersClient {
@@ -59,8 +60,7 @@ object UsersClient {
           update = Expression(
             expression = "#realname = #curValue",
             attributeNames = Map("#realname" -> "realname"),
-            attributeValues =
-              Map("#curValue" -> usernameCodec.write(user.username))
+            attributeValues = Map("#curValue" -> user.username.asAttributeValue)
           )
         )
     }
@@ -99,7 +99,6 @@ private object UsersDynamodb {
   val nicknameSchema: Schema[Nickname] =
     Schema[String].imap(Nickname.apply)(it => it.value)
 
-  // User as record
   val userSchema: Schema[User] =
     Schema.record[User](field =>
       (
@@ -110,18 +109,18 @@ private object UsersDynamodb {
       }
     )
 
-  val usernameSchema: Schema[Username] =
+  implicit val usernameSchema: Schema[Username] =
     Schema[String].imap(Username.apply)(it => it.value)
 
   final case class NicknameIndex(nickname: Nickname)
 
-  val nicknameIndexSchema: Schema[NicknameIndex] =
+  implicit val nicknameIndexSchema: Schema[NicknameIndex] =
     Schema[String].imap[NicknameIndex](it =>
       NicknameIndex(Nickname(it.split("USER#").last))
     )(it => s"USER#${it.nickname.value}")
 
   final case class CategoryIndex(value: String)
-  val categoryIndexSchema: Schema[CategoryIndex] =
+  implicit val categoryIndexSchema: Schema[CategoryIndex] =
     Schema[String].imap[CategoryIndex](it =>
       CategoryIndex(it.split("USER#").last)
     )(it => s"USER#${it.value}")
@@ -135,11 +134,15 @@ private object UsersDynamodb {
   val userWithCategory: Schema[UserWithCategory] =
     Schema.record[UserWithCategory](field =>
       (
-        field("nickname", it => s"USER#${it.nickname.value}")(Schema[String]),
-        field("realname", it => it.username.value)(Schema[String]),
-        field("category", it => s"USER#${it.category}")(Schema[String])
+        field("nickname", it => NicknameIndex(it.nickname))(
+          Schema[NicknameIndex]
+        ),
+        field("realname", it => it.username)(Schema[Username]),
+        field("category", it => CategoryIndex(it.category))(
+          Schema[CategoryIndex]
+        )
       ).mapN { case (nickname, username, category) =>
-        UserWithCategory(Username(username), Nickname(nickname), category)
+        UserWithCategory(username, nickname.nickname, category.value)
       }
     )
 
