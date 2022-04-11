@@ -103,12 +103,20 @@ You will build a basic Twitter application following a set of restrictions on ea
 
 
 To-Do:
-DONE- Terminar la relacion el modelado de base
+DONE - Terminar la relacion el modelado de base
 DONE - Levantar docker
 DONE - Conectar una cli para tirar comandos (o UI)
-- Test integracion
-- Correr las queries de usuarios y follows en un branch
-- Correr los tests
+NTH  - Test integracion
+DONE - Crear tablas en Dynamolocal mediante los tests
+INPR - Conectar las queries de usuarios y follows con DynamoDB
+- Implementar capa de presentacion http con http4s
+- Implementar Tweet feature
+- CI : Gitlab
+- Dockerizar
+CANCEL - Implementar vista (React?)
+- Definir configuracion (ciris?) PURE CONFIG 
+
+
 
 Objetivo del dia:
 Terminar la persistencia

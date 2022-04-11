@@ -10,6 +10,8 @@ lazy val root = (project in file("."))
 
       // Dynamodb
       "io.github.d2a4u" %% "meteor-awssdk" % "1.0.8",
+      "io.github.d2a4u" %% "meteor-dynosaur" % "1.0.12",
+      "org.systemfw" %% "dynosaur-core" % "0.3.0",
 
       // Functional effects testing
       "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test,
