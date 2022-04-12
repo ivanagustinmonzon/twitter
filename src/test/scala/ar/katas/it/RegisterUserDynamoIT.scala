@@ -3,12 +3,7 @@ package ar.katas.it
 import ar.katas.actions.RegisterUser
 import ar.katas.domain.user._
 import ar.katas.infrastructure.dynamodb.client.{DynamoClient, UsersClient}
-import cats.effect.IO
-import meteor.{Client, DynamoDbType, KeyDef}
 import munit.CatsEffectSuite
-import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
-import software.amazon.awssdk.services.dynamodb.model._
-import TestUtilities.cleanTable
 
 class RegisterUserDynamoIT extends CatsEffectSuite {
 
@@ -18,7 +13,7 @@ class RegisterUserDynamoIT extends CatsEffectSuite {
     val resource = DynamoClient.localDefault
     resource.use { client =>
       for {
-        _ <- cleanTable(client)
+        _ <- cleanUsersTable(client)
         users = UsersClient.make(client)
         action = RegisterUser.make(users)
         _ <- action.exec(john)
@@ -40,6 +35,7 @@ class RegisterUserDynamoIT extends CatsEffectSuite {
       val register = RegisterUser.make(users)
 
       for {
+        _ <- cleanUsersTable(client)
         _ <- register.exec(user)
         _ <- register.exec(user)
       } yield ()
@@ -47,44 +43,4 @@ class RegisterUserDynamoIT extends CatsEffectSuite {
 
     exec.attempt.assertEquals(Left(alreadyRegistered))
   }
-}
-
-object TestUtilities {
-  def createUserTable(client: Client[IO]): IO[Unit] =
-    client
-      .createCompositeKeysTable(
-        tableName = "Users",
-        partitionKeyDef = KeyDef[String]("nickname", DynamoDbType.S),
-        sortKeyDef = KeyDef[String]("category", DynamoDbType.S),
-        billingMode = BillingMode.PAY_PER_REQUEST,
-        attributeDefinition = Map(
-          "nickname" -> DynamoDbType.S,
-          "category" -> DynamoDbType.S
-        )
-      )
-
-  def deleteUserTable(client: DynamoDbAsyncClient): IO[DeleteTableResponse] =
-    IO.fromCompletableFuture[DeleteTableResponse](
-      IO(
-        client.deleteTable(
-          DeleteTableRequest.builder().tableName("Users").build()
-        )
-      )
-    )
-
-  def cleanTable(client: DynamoDbAsyncClient): IO[Unit] =
-    IO.fromCompletableFuture(
-      IO(
-        client.describeTable(
-          DescribeTableRequest.builder().tableName("Users").build()
-        )
-      )
-    ).attempt
-      .flatMap {
-        case Left(_: ResourceNotFoundException) =>
-          createUserTable(Client[IO](client))
-        case Right(_) =>
-          deleteUserTable(client) *> createUserTable(Client[IO](client))
-      }
-
 }
