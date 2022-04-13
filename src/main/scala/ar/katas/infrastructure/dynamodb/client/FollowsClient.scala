@@ -8,8 +8,9 @@ import cats.effect.IO
 import dynosaur.Schema
 import meteor.api.hi.CompositeTable
 import meteor.codec.Codec
-import meteor.{DynamoDbType, KeyDef}
+import meteor.{DynamoDbType, Expression, KeyDef, Query, SortKeyQuery}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
+import codecs._
 
 object FollowsClient {
   def make(client: DynamoDbAsyncClient): Follows =
@@ -34,14 +35,25 @@ object FollowsClient {
           sortKey = FollowedIndex(Nickname(idFollowee.value)),
           consistentRead = true
         )
-        .map {
-          case Some(_) => true
-          case None    => false
-        }
+        .map(_.nonEmpty)
 
       override def getFollowees(
           idFollower: following.FollowerId
-      ): IO[List[following.FolloweeId]] = ???
+      ): IO[List[following.FolloweeId]] =
+        followsTable(client)
+          .retrieve[Following](
+            Query(
+              partitionKey = NicknameIndex(Nickname(idFollower.value)),
+              sortKeyQuery =
+                SortKeyQuery.BeginsWith(FollowedIndex(Nickname(""))),
+              filter = Expression.empty
+            ),
+            consistentRead = true,
+            limit = 2
+          )
+          .map(_.followeeId)
+          .compile
+          .toList
     }
 
 }
