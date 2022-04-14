@@ -106,12 +106,12 @@ To-Do:
 DONE - Terminar la relacion el modelado de base
 DONE - Levantar docker
 DONE - Conectar una cli para tirar comandos (o UI)
-NTH  - Test integracion
+DONE - Test integracion
 DONE - Crear tablas en Dynamolocal mediante los tests
-INPR - Conectar las queries de usuarios y follows con DynamoDB
-- Implementar capa de presentacion http con http4s
+DONE - Conectar las queries de usuarios y follows con DynamoDB
+INPROG - Implementar capa de presentacion http con http4s
 - Implementar Tweet feature
-- CI : Gitlab
+-a CI : Gitlab
 - Dockerizar
 CANCEL - Implementar vista (React?)
 - Definir configuracion (ciris?) PURE CONFIG 
@@ -119,9 +119,4 @@ CANCEL - Implementar vista (React?)
 NTH:
 - Unificar Category index para tener las distintas extensiones
 - Definir una Query.empty[FooIndex] que solo empiece con FOO# (reemplazar la actual)
-
-
-
-Objetivo del dia:
-Terminar la persistencia
 
