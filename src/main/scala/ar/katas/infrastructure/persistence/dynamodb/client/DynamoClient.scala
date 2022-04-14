@@ -1,4 +1,4 @@
-package ar.katas.infrastructure.dynamodb.client
+package ar.katas.infrastructure.persistence.dynamodb.client
 
 import cats.effect.IO
 import cats.effect.kernel.Resource
@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import java.net.URI
 
 object DynamoClient {
-  val localDefault: Resource[IO, DynamoDbAsyncClient] = {
+  val localDefault: Resource[IO, DynamoDbAsyncClient] =
     Resource
       .fromAutoCloseable[IO, DynamoDbAsyncClient] {
         IO.delay {
@@ -23,7 +23,6 @@ object DynamoClient {
             .build()
         }
       }
-  }
 
   val localDefaultHI: Resource[IO, Client[IO]] =
     localDefault.map(jclient => Client[IO](jclient))

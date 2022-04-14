@@ -1,4 +1,4 @@
-package ar.katas.infrastructure.dynamodb
+package ar.katas.infrastructure.persistence.dynamodb
 
 import ar.katas.domain.Users
 import ar.katas.domain.user._

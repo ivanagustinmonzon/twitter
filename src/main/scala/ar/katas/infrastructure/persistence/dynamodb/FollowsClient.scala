@@ -1,9 +1,9 @@
-package ar.katas.infrastructure.dynamodb
+package ar.katas.infrastructure.persistence.dynamodb
 
 import ar.katas.domain.following.{FolloweeId, FollowerId, Following}
 import ar.katas.domain.user.Nickname
 import ar.katas.domain.{Follows, following}
-import ar.katas.infrastructure.dynamodb.FollowsDynamodb._
+import FollowsDynamodb._
 import cats.effect.IO
 import dynosaur.Schema
 import meteor._
@@ -55,7 +55,6 @@ object FollowsClient {
           .compile
           .toList
     }
-
 }
 
 private object FollowsDynamodb {

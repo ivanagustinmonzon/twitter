@@ -1,4 +1,4 @@
-package ar.katas.infrastructure
+package ar.katas.infrastructure.inmemory
 
 import ar.katas.domain.Follows
 import ar.katas.domain.following.{FolloweeId, FollowerId}

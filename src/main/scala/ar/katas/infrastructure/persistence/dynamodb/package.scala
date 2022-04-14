@@ -1,4 +1,4 @@
-package ar.katas.infrastructure
+package ar.katas.infrastructure.persistence
 
 import ar.katas.domain.user.{Nickname, Username}
 import dynosaur.Schema
