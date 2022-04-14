@@ -1,18 +1,18 @@
-package ar.katas.infrastructure.dynamodb.client
+package ar.katas.infrastructure.dynamodb
 
 import ar.katas.domain.following.{FolloweeId, FollowerId, Following}
 import ar.katas.domain.user.Nickname
 import ar.katas.domain.{Follows, following}
-import ar.katas.infrastructure.dynamodb.client.FollowsDynamodb._
+import ar.katas.infrastructure.dynamodb.FollowsDynamodb._
 import cats.effect.IO
 import dynosaur.Schema
+import meteor._
 import meteor.api.hi.CompositeTable
 import meteor.codec.Codec
-import meteor.{DynamoDbType, Expression, KeyDef, Query, SortKeyQuery}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
-import codecs._
 
 object FollowsClient {
+  import codecs._
   def make(client: DynamoDbAsyncClient): Follows =
     new Follows {
       override def persistFollowing(
@@ -61,8 +61,8 @@ object FollowsClient {
 private object FollowsDynamodb {
   import cats.syntax.apply._
   import codecs._
-  import meteor.dynosaur.formats.conversions._
   import schemas._
+  import meteor.dynosaur.formats.conversions._
 
   lazy val followsTable: DynamoDbAsyncClient => CompositeTable[
     IO,

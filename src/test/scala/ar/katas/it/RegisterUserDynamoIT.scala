@@ -2,7 +2,8 @@ package ar.katas.it
 
 import ar.katas.actions.RegisterUser
 import ar.katas.domain.user._
-import ar.katas.infrastructure.dynamodb.client.{DynamoClient, UsersClient}
+import ar.katas.infrastructure.dynamodb.UsersClient
+import ar.katas.infrastructure.dynamodb.client.DynamoClient
 import munit.CatsEffectSuite
 
 class RegisterUserDynamoIT extends CatsEffectSuite {

@@ -4,11 +4,8 @@ import ar.katas.actions.{FollowUser, RegisterUser}
 import ar.katas.domain.following.{FolloweeId, FollowerId}
 import ar.katas.domain.user._
 import ar.katas.infrastructure.FollowsInMemory
-import ar.katas.infrastructure.dynamodb.client.{
-  DynamoClient,
-  FollowsClient,
-  UsersClient
-}
+import ar.katas.infrastructure.dynamodb.{FollowsClient, UsersClient}
+import ar.katas.infrastructure.dynamodb.client.DynamoClient
 import munit.CatsEffectSuite
 
 class FollowUserDynamoIT extends CatsEffectSuite {

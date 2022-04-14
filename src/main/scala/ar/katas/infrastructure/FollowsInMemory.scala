@@ -15,7 +15,7 @@ object FollowsInMemory {
           ): IO[Unit] =
             database.update(m => {
               val updatedList =
-                idFollowee :: m.get(idFollower).getOrElse(List.empty)
+                idFollowee :: m.getOrElse(idFollower, List.empty)
               m + (idFollower -> updatedList)
             })
 
@@ -26,15 +26,14 @@ object FollowsInMemory {
             database.get.map(m =>
               m
                 .get(idFollower)
-                .map(l => l.contains(idFollowee))
-                .getOrElse(false)
+                .exists(l => l.contains(idFollowee))
             )
 
           override def getFollowees(
               idFollower: FollowerId
           ): IO[List[FolloweeId]] =
             database.get
-              .map(m => m.get(idFollower).getOrElse(List.empty[FolloweeId]))
+              .map(m => m.getOrElse(idFollower, List.empty[FolloweeId]))
         }
       })
 

@@ -1,17 +1,19 @@
-package ar.katas.infrastructure.dynamodb.client
+package ar.katas.infrastructure.dynamodb
 
 import ar.katas.domain.Users
 import ar.katas.domain.user._
 import cats.effect.IO
-import cats.implicits.catsSyntaxApplicativeId
-import meteor._
+import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple3Semigroupal}
+import dynosaur.Schema
 import meteor.api.hi.CompositeTable
+import meteor.codec.Codec
 import meteor.syntax.RichWriteAttributeValue
+import meteor.{DynamoDbType, Expression, KeyDef}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
-import UsersDynamodb.usersTable
-import codecs._
 
 object UsersClient {
+  import UsersDynamodb._
+  import codecs._
   def make(client: DynamoDbAsyncClient): Users =
     new Users {
       override def get(nickname: Nickname): IO[User] =
@@ -58,6 +60,8 @@ object UsersClient {
 
 private object UsersDynamodb {
   import codecs._
+  import schemas._
+  import meteor.dynosaur.formats.conversions.schemaToCodec
   lazy val usersTable: DynamoDbAsyncClient => CompositeTable[
     IO,
     NicknameIndex,
@@ -71,4 +75,30 @@ private object UsersDynamodb {
         jclient
       )
 
+  final case class UserWithCategory(
+      username: Username,
+      nickname: Nickname,
+      category: String
+  )
+
+  val userWithCategory: Schema[UserWithCategory] =
+    Schema.record[UserWithCategory](field =>
+      (
+        field("nickname", it => NicknameIndex(it.nickname))(
+          Schema[NicknameIndex](nicknameIndexSchema)
+        ),
+        field("realname", it => it.username)(
+          Schema[Username](usernameSchema)
+        ),
+        field("category", it => CategoryIndex(it.category))(
+          Schema[CategoryIndex](categoryIndexSchema)
+        )
+      ).mapN { case (nickname, username, category) =>
+        UserWithCategory(username, nickname.nickname, category.value)
+      }
+    )
+
+  implicit val userCodec: Codec[UserWithCategory] = schemaToCodec(
+    userWithCategory
+  )
 }

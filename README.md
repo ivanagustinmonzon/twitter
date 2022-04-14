@@ -116,6 +116,10 @@ INPR - Conectar las queries de usuarios y follows con DynamoDB
 CANCEL - Implementar vista (React?)
 - Definir configuracion (ciris?) PURE CONFIG 
 
+NTH:
+- Unificar Category index para tener las distintas extensiones
+- Definir una Query.empty[FooIndex] que solo empiece con FOO# (reemplazar la actual)
+
 
 
 Objetivo del dia:
