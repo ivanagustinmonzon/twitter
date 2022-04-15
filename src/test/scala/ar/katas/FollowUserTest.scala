@@ -3,8 +3,7 @@ package ar.katas
 import ar.katas.actions.{FollowUser, RegisterUser}
 import ar.katas.domain.following.{FolloweeId, FollowerId}
 import ar.katas.domain.user._
-import ar.katas.infrastructure.UsersInMemory
-import ar.katas.infrastructure.inmemory.{FollowsInMemory, UsersInMemory}
+import ar.katas.infrastructure.persistence.inmemory._
 import munit.CatsEffectSuite
 
 class FollowUserTest extends CatsEffectSuite {

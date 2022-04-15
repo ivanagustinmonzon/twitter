@@ -1,8 +1,9 @@
-package ar.katas.infrastructure.inmemory
+package ar.katas.infrastructure.persistence.inmemory
 
 import ar.katas.domain.Users
 import ar.katas.domain.user.{Nickname, User, UserNotFound, Username}
 import cats.effect.IO
+import cats.implicits.catsSyntaxOption
 
 object UsersInMemory {
   val make: IO[Users] = {

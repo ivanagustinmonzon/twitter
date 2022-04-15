@@ -1,9 +1,9 @@
-package ar.katas.it
+package ar.katas.persistence
 
 import ar.katas.actions.{RegisterUser, UpdateUser}
 import ar.katas.domain.user._
-import ar.katas.infrastructure.dynamodb.UsersClient
-import ar.katas.infrastructure.dynamodb.client.DynamoClient
+import ar.katas.infrastructure.persistence.dynamodb.UsersClient
+import ar.katas.infrastructure.persistence.dynamodb.client.DynamoClient
 import munit.CatsEffectSuite
 
 class UpdateUserDynamoIT extends CatsEffectSuite {

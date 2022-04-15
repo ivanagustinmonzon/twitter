@@ -1,10 +1,11 @@
-package ar.katas
+package ar.katas.persistence
+
 import cats.effect.IO
 import meteor.{Client, DynamoDbType, KeyDef}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 import software.amazon.awssdk.services.dynamodb.model._
 
-package object it {
+package object persistence {
   def createUserTable(client: Client[IO]): IO[Unit] =
     client
       .createCompositeKeysTable(
@@ -22,7 +23,10 @@ package object it {
     IO.fromCompletableFuture[DeleteTableResponse](
       IO(
         client.deleteTable(
-          DeleteTableRequest.builder().tableName("Users").build()
+          DeleteTableRequest
+            .builder()
+            .tableName("Users")
+            .build()
         )
       )
     )
@@ -40,7 +44,7 @@ package object it {
           createUserTable(Client[IO](client))
         case Right(_) =>
           deleteUserTable(client) *> createUserTable(Client[IO](client))
-//        case Left(value) => IO.raiseError(value)
+        case Left(value) => IO.raiseError(value)
       }
 
 }
