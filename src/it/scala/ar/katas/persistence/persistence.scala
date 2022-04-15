@@ -1,4 +1,4 @@
-package ar.katas.persistence
+package ar.katas
 
 import cats.effect.IO
 import meteor.{Client, DynamoDbType, KeyDef}
