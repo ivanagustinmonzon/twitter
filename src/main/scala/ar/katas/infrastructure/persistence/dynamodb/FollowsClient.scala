@@ -1,8 +1,8 @@
 package ar.katas.infrastructure.persistence.dynamodb
 
-import ar.katas.domain.following.{FolloweeId, FollowerId, Following}
-import ar.katas.domain.user.Nickname
-import ar.katas.domain.{Follows, following}
+import ar.katas.model.following.{FolloweeId, FollowerId, Following}
+import ar.katas.model.user.Nickname
+import ar.katas.model.{Follows, following}
 import FollowsDynamodb._
 import cats.effect.IO
 import dynosaur.Schema

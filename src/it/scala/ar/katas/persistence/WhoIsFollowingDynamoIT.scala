@@ -1,7 +1,7 @@
 package ar.katas.persistence
 
 import ar.katas.actions.{FollowUser, RegisterUser, WhoIsFollowing}
-import ar.katas.domain.user._
+import ar.katas.model.user._
 import ar.katas.infrastructure.persistence.dynamodb.client.DynamoClient
 import ar.katas.infrastructure.persistence.dynamodb.{FollowsClient, UsersClient}
 import munit.CatsEffectSuite

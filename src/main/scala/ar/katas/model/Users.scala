@@ -1,6 +1,6 @@
-package ar.katas.domain
+package ar.katas.model
 
-import ar.katas.domain.user._
+import ar.katas.model.user._
 import cats.effect.IO
 
 trait Users {

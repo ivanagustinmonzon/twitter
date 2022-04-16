@@ -1,8 +1,8 @@
 package ar.katas.actions
 
-import ar.katas.domain.following.FollowerId
-import ar.katas.domain.user.{Nickname, User}
-import ar.katas.domain.{Follows, Users}
+import ar.katas.model.following.FollowerId
+import ar.katas.model.user.{Nickname, User}
+import ar.katas.model.{Follows, Users}
 import cats.effect.IO
 import cats.syntax.traverse._
 

@@ -1,7 +1,7 @@
 package ar.katas.actions
 
-import ar.katas.domain.Users
-import ar.katas.domain.user.{User, UserNotFound}
+import ar.katas.model.Users
+import ar.katas.model.user.{User, UserNotFound}
 import cats.effect.IO
 
 trait UpdateUser {

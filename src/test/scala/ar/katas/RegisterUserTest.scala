@@ -1,7 +1,7 @@
 package ar.katas
 
 import ar.katas.actions.RegisterUser
-import ar.katas.domain.user._
+import ar.katas.model.user._
 import ar.katas.infrastructure.persistence.inmemory.UsersInMemory
 import munit.CatsEffectSuite
 

@@ -1,7 +1,7 @@
 package ar.katas.infrastructure.persistence.inmemory
 
-import ar.katas.domain.Follows
-import ar.katas.domain.following.{FolloweeId, FollowerId}
+import ar.katas.model.Follows
+import ar.katas.model.following.{FolloweeId, FollowerId}
 import cats.effect.IO
 
 object FollowsInMemory {

@@ -1,7 +1,7 @@
 package ar.katas.infrastructure.persistence.dynamodb
 
-import ar.katas.domain.Users
-import ar.katas.domain.user._
+import ar.katas.model.Users
+import ar.katas.model.user._
 import cats.effect.IO
 import cats.implicits.{catsSyntaxApplicativeId, catsSyntaxTuple3Semigroupal}
 import dynosaur.Schema

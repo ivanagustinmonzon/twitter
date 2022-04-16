@@ -1,6 +1,6 @@
 package ar.katas.infrastructure.persistence
 
-import ar.katas.domain.user.{Nickname, Username}
+import ar.katas.model.user.{Nickname, Username}
 import dynosaur.Schema
 import meteor.codec.Codec
 

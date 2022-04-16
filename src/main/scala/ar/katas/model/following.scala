@@ -1,4 +1,4 @@
-package ar.katas.domain
+package ar.katas.model
 
 object following {
 

@@ -1,6 +1,6 @@
-package ar.katas.domain
+package ar.katas.model
 
-import ar.katas.domain.following.{FolloweeId, FollowerId}
+import ar.katas.model.following.{FolloweeId, FollowerId}
 import cats.effect.IO
 
 trait Follows {
