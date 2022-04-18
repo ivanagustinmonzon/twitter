@@ -2,7 +2,7 @@ package ar.katas.infrastructure.http.routes
 
 import ar.katas.actions.{RegisterUser, UpdateUser}
 import ar.katas.infrastructure.http.routes.Params._
-import ar.katas.model.user.{UserAlreadyRegistered, UserParam}
+import ar.katas.model.user._
 import cats.effect.IO
 import org.http4s.circe.jsonOf
 import org.http4s.dsl.Http4sDsl
@@ -28,6 +28,16 @@ final case class UserRoutes(
           Conflict()
         }
 
+    case update @ PUT -> Root / nickname =>
+      update
+        .as[UpdateParam]
+        .flatMap(newUsername =>
+          updateUser.exec(
+            User(newUsername.toDomain, Nickname(nickname))
+          )
+        )
+        .flatMap(Ok(_))
+        .handleErrorWith { case UserNotFound(_) => NotFound() }
   }
 
   val routes: HttpRoutes[IO] = Router(
@@ -38,5 +48,6 @@ final case class UserRoutes(
 
 private object Params {
   implicit val d: EntityDecoder[IO, UserParam] = jsonOf[IO, UserParam]
+  implicit val e: EntityDecoder[IO, UpdateParam] = jsonOf[IO, UpdateParam]
 
 }

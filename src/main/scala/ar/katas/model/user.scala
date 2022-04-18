@@ -2,6 +2,7 @@ package ar.katas.model
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import shapeless.ops.hlist.HNilHKernel
 
 import scala.util.control.NoStackTrace
 
@@ -25,4 +26,11 @@ object user {
     implicit val decoder: Decoder[UserParam] = deriveDecoder
   }
 
+  final case class UpdateParam(realname: String) {
+    def toDomain: Username = Username(realname)
+  }
+  object UpdateParam {
+    implicit val encoder: Encoder[UpdateParam] = deriveEncoder
+    implicit val decoder: Decoder[UpdateParam] = deriveDecoder
+  }
 }
