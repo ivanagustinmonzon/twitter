@@ -100,6 +100,61 @@ You will build a basic Twitter application following a set of restrictions on ea
 |  USER#johnbauer1*   |       TWEET#123abc | Hello twitter!, 202204071322 |
 
 
+## Presentation model 
+
+Register user: 
+```
+POST /users/
+  {
+    nickname: string,
+    realname: string
+  }
+  
+  returns:
+    201: created
+    409: user already registered
+    500: service error
+```
+Update user: 
+```
+PUT /users/<nickname>
+  {
+    realname: string
+  }
+  
+  returns:
+    204: updated
+    404: user not found 
+    500: service error
+```
+
+Follow user: 
+```
+POST /users/<nickname>/follows
+  {
+    followeeId: string
+  }
+  
+  returns:
+    204: ok
+    404: user not found 
+    500: service error
+```
+
+Who is following who: 
+```
+GET /users/<nickname>/follows
+  {}
+  
+  returns:
+    200: [ {
+      - nickname: string,
+      - realname: string
+    } ]
+    404: user not found
+    500: service error
+```
+
 
 
 To-Do:
@@ -120,3 +175,5 @@ NTH:
 - Unificar Category index para tener las distintas extensiones
 - Definir una Query.empty[FooIndex] que solo empiece con FOO# (reemplazar la actual)
 - Correr it tests en paralelo
+
+Elegi agregar los codecs en el dominio vs crear vistas del dominio en la capa de presentacion
