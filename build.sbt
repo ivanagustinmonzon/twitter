@@ -1,6 +1,7 @@
 ThisBuild / organization := "com.example"
 ThisBuild / scalaVersion := "2.13.5"
 
+val http4sVersion = "1.0.0-M23"
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(Defaults.itSettings)
@@ -10,6 +11,13 @@ lazy val root = (project in file("."))
       // Functional effects
       "org.typelevel" %% "cats-effect" % "3.3.9",
 
+      // Presentation - http and codecs
+      "org.http4s" %% "http4s-dsl" % http4sVersion,
+      "org.http4s" %% "http4s-circe" % http4sVersion,
+      "org.http4s" %% "http4s-ember-server" % http4sVersion,
+      "org.http4s" %% "http4s-ember-client" % http4sVersion,
+      "io.circe" %% "circe-generic" % "0.14.1",
+      "io.circe" %% "circe-literal" % "0.14.1",
       // Dynamodb
       "io.github.d2a4u" %% "meteor-awssdk" % "1.0.8",
       "io.github.d2a4u" %% "meteor-dynosaur" % "1.0.12",
