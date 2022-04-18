@@ -8,7 +8,7 @@ import org.http4s.circe.jsonEncoder
 
 import scala.util.control.NoStackTrace
 
-trait HttpHelper extends Assertions {
+trait AssertionsHelper extends Assertions {
   private class AssertionError(msg: String = "") extends NoStackTrace
   def failed(msg: String = "") = fail(msg, new AssertionError)
 

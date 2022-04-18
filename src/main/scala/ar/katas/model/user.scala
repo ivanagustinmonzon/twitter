@@ -22,6 +22,8 @@ object user {
     def toDomain: User = User(Username(realname), Nickname(nickname))
   }
   object UserParam {
+    def apply(user: User): UserParam =
+      new UserParam(user.nickname.value, user.username.value)
     implicit val encoder: Encoder[UserParam] = deriveEncoder
     implicit val decoder: Decoder[UserParam] = deriveDecoder
   }

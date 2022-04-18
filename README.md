@@ -164,8 +164,8 @@ To-Do:
 - [DONE] Crear tablas en Dynamolocal mediante los tests
 - [DONE] Conectar las queries de usuarios y follows con DynamoDB
 - [DONE] Test integracion
-- [INPROG] Implementar capa de presentacion http con http4s
-- Implementar Tweet feature
+- [DONE] Implementar capa de presentacion http con http4s
+- [INPR] Implementar Tweet feature
 - CI : Gitlab
 - Dockerizar
 - [CANCEL] Implementar vista (React?)

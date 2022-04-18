@@ -12,7 +12,7 @@ import org.http4s._
 import org.http4s.client.dsl.io._
 import org.http4s.implicits.http4sLiteralsSyntax
 
-class UserRoutesTest extends CatsEffectSuite with HttpHelper {
+class UserRoutesTest extends CatsEffectSuite with AssertionsHelper {
 
   test("POST register user returns 201 if succeed") {
     val registerUserRequest: Request[IO] = POST(
@@ -107,7 +107,6 @@ class UserRoutesTest extends CatsEffectSuite with HttpHelper {
         case Some(resp) => assert(resp.status == Status.NotFound)
         case None       => failed()
       }
-
   }
 
 }

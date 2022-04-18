@@ -1,7 +1,7 @@
 package ar.katas.infrastructure.http.routes
 
 import ar.katas.actions.{RegisterUser, UpdateUser}
-import ar.katas.infrastructure.http.routes.Params._
+import ar.katas.infrastructure.http.routes.UserCodecs._
 import ar.katas.model.user._
 import cats.effect.IO
 import org.http4s.circe.jsonOf
@@ -46,7 +46,7 @@ final case class UserRoutes(
 
 }
 
-private object Params {
+private object UserCodecs {
   implicit val d: EntityDecoder[IO, UserParam] = jsonOf[IO, UserParam]
   implicit val e: EntityDecoder[IO, UpdateParam] = jsonOf[IO, UpdateParam]
 
