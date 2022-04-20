@@ -30,3 +30,5 @@ lazy val root = (project in file("."))
   )
 
 parallelExecution in IntegrationTest := false
+
+addCommandAlias("testAll", "; test ; it:test")

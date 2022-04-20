@@ -10,7 +10,10 @@ object Main extends IOApp.Simple {
 
   def program: IO[Unit] = {
     HttpServerConfig
-      .make("localhost", "9000")
+      .make(
+        host = "localhost",
+        port = "9000"
+      )
       .flatMap { httpCfg =>
         AppResources.make
           .map { appResources =>
