@@ -1,8 +1,10 @@
 package ar.katas.persistence
 
 import ar.katas.actions.RegisterUser
-import ar.katas.infrastructure.persistence.dynamodb.UsersClient
-import ar.katas.infrastructure.persistence.dynamodb.client.DynamoClient
+import ar.katas.infrastructure.persistence.dynamodb.{
+  DynamoDbResource,
+  UsersClient
+}
 import ar.katas.model.user._
 import munit.CatsEffectSuite
 
@@ -11,7 +13,7 @@ class RegisterUserDynamoIT extends CatsEffectSuite {
   test("Register user") {
     val john = User(Username("Jhon Bauer"), Nickname("@johnbauer1"))
 
-    val resource = DynamoClient.localDefault
+    val resource = DynamoDbResource.localDefault
     resource.use { client =>
       for {
         _ <- cleanUsersTable(client)
@@ -30,7 +32,7 @@ class RegisterUserDynamoIT extends CatsEffectSuite {
     val user = User(Username("Jack Bauer"), Nickname("@jackregistered"))
     val alreadyRegistered = UserAlreadyRegistered(user.nickname)
 
-    val resource = DynamoClient.localDefault
+    val resource = DynamoDbResource.localDefault
     val exec = resource.use { client =>
       val users = UsersClient.make(client)
       val register = RegisterUser.make(users)

@@ -1,8 +1,11 @@
 package ar.katas.persistence
 
 import ar.katas.actions.{FollowUser, RegisterUser, WhoIsFollowing}
-import ar.katas.infrastructure.persistence.dynamodb.client.DynamoClient
-import ar.katas.infrastructure.persistence.dynamodb.{FollowsClient, UsersClient}
+import ar.katas.infrastructure.persistence.dynamodb.{
+  DynamoDbResource,
+  FollowsClient,
+  UsersClient
+}
 import ar.katas.model.user._
 import munit.CatsEffectSuite
 
@@ -13,7 +16,7 @@ class WhoIsFollowingDynamoIT extends CatsEffectSuite {
     val jake = User(Username("Jake Doe"), Nickname("@jd"))
     val jane = User(Username("Jane Perez"), Nickname("@jp"))
 
-    val resource = DynamoClient.localDefault
+    val resource = DynamoDbResource.localDefault
 
     resource.use { client =>
       val users = UsersClient.make(client)
