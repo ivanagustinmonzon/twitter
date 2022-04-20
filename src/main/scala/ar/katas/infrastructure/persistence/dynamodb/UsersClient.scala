@@ -75,6 +75,11 @@ private object UsersDynamodb {
         jclient
       )
 
+  val usernameSchema: Schema[Username] =
+    Schema[String].imap(Username.apply)(it => it.value)
+
+  implicit val usernameCodec: Codec[Username] = schemaToCodec(usernameSchema)
+
   final case class UserWithCategory(
       username: Username,
       nickname: Nickname,

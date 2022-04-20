@@ -93,7 +93,7 @@ private object FollowsDynamodb {
   val followingSchema: Schema[Following] = Schema.record(field =>
     (
       field("nickname", it => NicknameIndex(Nickname(it.followerId.value)))(
-        Schema[NicknameIndex]
+        Schema[NicknameIndex](nicknameIndexSchema)
       ),
       field("category", it => FollowedIndex(Nickname(it.followeeId.value)))(
         Schema[FollowedIndex](followedIndexSchema)

@@ -1,6 +1,6 @@
 package ar.katas.infrastructure.persistence
 
-import ar.katas.model.user.{Nickname, Username}
+import ar.katas.model.user.Nickname
 import dynosaur.Schema
 import meteor.codec.Codec
 
@@ -10,10 +10,8 @@ package object dynamodb {
   final case class CategoryIndex(value: String)
 
   object schemas {
-    val usernameSchema: Schema[Username] =
-      Schema[String].imap(Username.apply)(it => it.value)
 
-    implicit val nicknameIndexSchema: Schema[NicknameIndex] =
+    val nicknameIndexSchema: Schema[NicknameIndex] =
       Schema[String].imap[NicknameIndex](it =>
         NicknameIndex(Nickname(it.split("USER#").last))
       )(it => s"USER#${it.nickname.value}")
@@ -27,11 +25,10 @@ package object dynamodb {
   object codecs {
     import meteor.dynosaur.formats.conversions._
     import schemas._
-    implicit val usernameCodec: Codec[Username] = schemaToCodec(usernameSchema)
-    implicit val nicknameIndexCodec: Codec[NicknameIndex] = schemaToCodec(
+    implicit val partitionKeyCodec: Codec[NicknameIndex] = schemaToCodec(
       nicknameIndexSchema
     )
-    implicit val categoryIndexCodec: Codec[CategoryIndex] = schemaToCodec(
+    implicit val sortKeyCodec: Codec[CategoryIndex] = schemaToCodec(
       categoryIndexSchema
     )
 
