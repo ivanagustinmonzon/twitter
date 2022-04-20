@@ -10,8 +10,10 @@ import org.http4s.server.Router
 import org.http4s.{EntityDecoder, EntityEncoder, HttpRoutes}
 import FollowCodecs._
 
-case class FollowRoutes(followUser: FollowUser, whoIsFollowing: WhoIsFollowing)
-    extends Http4sDsl[IO] {
+final case class FollowRoutes(
+    followUser: FollowUser,
+    whoIsFollowing: WhoIsFollowing
+) extends Http4sDsl[IO] {
 
   private[routes] val usersPrefixPath = "/users"
   private[routes] val prefixPath = "/follows"

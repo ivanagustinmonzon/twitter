@@ -172,8 +172,14 @@ To-Do:
 - Definir configuracion (ciris?) PURE CONFIG 
 
 NTH:
+- Configurar logger de http4s para ver RequestLogs y ResponseLogs
+- Configurar healtcheck route que pinguee el estado los appResources
 - Unificar Category index para tener las distintas extensiones
 - Definir una Query.empty[FooIndex] que solo empiece con FOO# (reemplazar la actual)
 - Correr it tests en paralelo
 
 Elegi agregar los codecs en el dominio vs crear vistas del dominio en la capa de presentacion
+
+Http dto -> action dto -> model 
+
+Definir userparam como parte de http
