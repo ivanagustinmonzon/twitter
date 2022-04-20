@@ -60,8 +60,8 @@ object UsersClient {
 
 private object UsersDynamodb {
   import codecs._
-  import schemas._
   import meteor.dynosaur.formats.conversions.schemaToCodec
+  import schemas._
   lazy val usersTable: DynamoDbAsyncClient => CompositeTable[
     IO,
     NicknameIndex,

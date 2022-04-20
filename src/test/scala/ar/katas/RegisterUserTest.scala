@@ -1,8 +1,8 @@
 package ar.katas
 
 import ar.katas.actions.RegisterUser
-import ar.katas.model.user._
 import ar.katas.infrastructure.persistence.inmemory.UsersInMemory
+import ar.katas.model.user._
 import munit.CatsEffectSuite
 
 class RegisterUserTest extends CatsEffectSuite {

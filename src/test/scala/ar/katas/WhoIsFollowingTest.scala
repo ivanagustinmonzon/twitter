@@ -1,11 +1,11 @@
 package ar.katas
 
 import ar.katas.actions.{FollowUser, RegisterUser, WhoIsFollowing}
-import ar.katas.model.user._
 import ar.katas.infrastructure.persistence.inmemory.{
   FollowsInMemory,
   UsersInMemory
 }
+import ar.katas.model.user._
 import munit.CatsEffectSuite
 
 class WhoIsFollowingTest extends CatsEffectSuite {

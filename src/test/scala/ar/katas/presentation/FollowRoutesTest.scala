@@ -1,7 +1,7 @@
 package ar.katas.presentation
 
 import ar.katas.actions.{FollowUser, WhoIsFollowing}
-import ar.katas.infrastructure.http.routes.{FollowRoutes, UserRoutes}
+import ar.katas.infrastructure.http.routes.FollowRoutes
 import ar.katas.model.user
 import ar.katas.model.user.{Nickname, User, UserNotFound, Username}
 import cats.effect.IO

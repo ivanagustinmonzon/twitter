@@ -1,14 +1,17 @@
 package ar.katas.infrastructure.http.routes
 
 import ar.katas.actions.{FollowUser, WhoIsFollowing}
-import ar.katas.model.following.FolloweeParam
+import ar.katas.infrastructure.http.routes.FollowCodecs._
+import ar.katas.infrastructure.http.routes.UserCodecs._
+import ar.katas.model.user
 import ar.katas.model.user._
 import cats.effect.IO
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
 import org.http4s.circe.{jsonEncoderOf, jsonOf}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 import org.http4s.{EntityDecoder, EntityEncoder, HttpRoutes}
-import FollowCodecs._
 
 final case class FollowRoutes(
     followUser: FollowUser,
@@ -34,7 +37,7 @@ final case class FollowRoutes(
       whoIsFollowing
         .exec(Nickname(followerId))
         .map(
-          _.map(UserParam.apply(_))
+          _.map(UserParam.apply)
         )
         .flatMap(Ok(_))
         .handleErrorWith { case UserNotFound(_) =>
@@ -53,4 +56,13 @@ private object FollowCodecs {
 
   implicit val g: EntityEncoder[IO, List[UserParam]] =
     jsonEncoderOf[IO, List[UserParam]]
+
+  final case class FolloweeParam(followeeId: String) {
+    val toDomain: user.Nickname = Nickname(followeeId)
+  }
+  object FolloweeParam {
+    implicit val d: Decoder[FolloweeParam] = deriveDecoder
+    implicit val e: Encoder[FolloweeParam] = deriveEncoder
+  }
+
 }

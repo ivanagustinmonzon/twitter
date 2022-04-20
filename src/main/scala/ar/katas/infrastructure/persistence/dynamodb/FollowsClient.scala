@@ -1,9 +1,9 @@
 package ar.katas.infrastructure.persistence.dynamodb
 
+import ar.katas.infrastructure.persistence.dynamodb.FollowsDynamodb._
 import ar.katas.model.following.{FolloweeId, FollowerId, Following}
 import ar.katas.model.user.Nickname
 import ar.katas.model.{Follows, following}
-import FollowsDynamodb._
 import cats.effect.IO
 import dynosaur.Schema
 import meteor._
@@ -60,8 +60,8 @@ object FollowsClient {
 private object FollowsDynamodb {
   import cats.syntax.apply._
   import codecs._
-  import schemas._
   import meteor.dynosaur.formats.conversions._
+  import schemas._
 
   lazy val followsTable: DynamoDbAsyncClient => CompositeTable[
     IO,

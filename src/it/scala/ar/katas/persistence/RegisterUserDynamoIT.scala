@@ -1,9 +1,9 @@
 package ar.katas.persistence
 
 import ar.katas.actions.RegisterUser
-import ar.katas.model.user._
 import ar.katas.infrastructure.persistence.dynamodb.UsersClient
 import ar.katas.infrastructure.persistence.dynamodb.client.DynamoClient
+import ar.katas.model.user._
 import munit.CatsEffectSuite
 
 class RegisterUserDynamoIT extends CatsEffectSuite {

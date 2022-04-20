@@ -1,7 +1,7 @@
 package ar.katas
 
 import ar.katas.infrastructure.http.server.{HttpServerConfig, MkHttpServer}
-import modules._
+import ar.katas.modules._
 import cats.effect._
 
 object Main extends IOApp.Simple {

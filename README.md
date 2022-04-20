@@ -1,18 +1,19 @@
 # twitter-kata
 
-
 # Description #
+
 The goal of this kata is to practice Clean Architecture driven by Outside-in TDD.
 
 You will build a basic Twitter application following a set of restrictions on each iteration. Try to apply DRY, KISS, and SOLID principles during the process.
 
 **Recommendation:** create a Maven project using IntelliJ IDEA.
 
-## Restrictions 
+## Restrictions
+
 - Write the best code you can, while keeping it simple.
 - Don't do more than the iteration asks.
 - Don't add infrastructure if the functionality doesn't explicitly ask for it.
-- Don't rely on libraries if the functionality doesn't explicitly ask for it. 
+- Don't rely on libraries if the functionality doesn't explicitly ask for it.
 
 ### Iteration 1
 
@@ -26,7 +27,7 @@ You will build a basic Twitter application following a set of restrictions on ea
 
 ### Iteration 3
 
-* A user can follow other users. The nickname of the other user is all it needs to follow it. 
+* A user can follow other users. The nickname of the other user is all it needs to follow it.
 
 * Anyone can ask who is following who, just knowing the nickname
 
@@ -45,16 +46,15 @@ You will build a basic Twitter application following a set of restrictions on ea
 
 * A user can tweet. Other users can read all tweets of a user knowing his username.
 
-
 #### Assumptions
- - A user can register any nickname (not just '@' starting)
- - A user cannot change its nickname
- - Persistence shared across multiple fibers (concurrent)
- - Cannot store user list of followers/following in a single item (scalability). 
-    i.e following and followed are separated entities in persistence
 
-# Persistence model 
-    
+- A user can register any nickname (not just '@' starting)
+- A user cannot change its nickname
+- Persistence shared across multiple fibers (concurrent)
+- Cannot store user list of followers/following in a single item (scalability). i.e following and followed are separated entities in persistence
+
+# Persistence model
+
 ### Entities and relationships
 
     User{
@@ -90,8 +90,6 @@ You will build a basic Twitter application following a set of restrictions on ea
 | Followed |  USER#\<nickname>   | FOLLOWED#\<nickname> |                       timestamp: String | max= 400kb
 | Tweet*   |  USER#\<nickname>   |    TWEET#\<tweet-id> | message: String,<br/> timestamp: String |
 
-
-
 | Paritition key (PK) |      Sort key (SK) |                   Attributes |
 |:-------------------:|-------------------:|-----------------------------:|
 |   USER#johnbauer1   |    USER#johnbauer1 |                   John Bauer |
@@ -99,10 +97,10 @@ You will build a basic Twitter application following a set of restrictions on ea
 |  USER#juliarobers2  | FOLLOWED#johnbauer |                 202204071222 |
 |  USER#johnbauer1*   |       TWEET#123abc | Hello twitter!, 202204071322 |
 
+## Presentation model
 
-## Presentation model 
+Register user:
 
-Register user: 
 ```
 POST /users/
   {
@@ -115,7 +113,9 @@ POST /users/
     409: user already registered
     500: service error
 ```
-Update user: 
+
+Update user:
+
 ```
 PUT /users/<nickname>
   {
@@ -128,7 +128,8 @@ PUT /users/<nickname>
     500: service error
 ```
 
-Follow user: 
+Follow user:
+
 ```
 POST /users/<nickname>/follows
   {
@@ -141,7 +142,8 @@ POST /users/<nickname>/follows
     500: service error
 ```
 
-Who is following who: 
+Who is following who:
+
 ```
 GET /users/<nickname>/follows
   {}
@@ -155,9 +157,8 @@ GET /users/<nickname>/follows
     500: service error
 ```
 
-
-
 To-Do:
+
 - [DONE] Terminar la relacion el modelado de base
 - [DONE] Levantar docker
 - [DONE] Conectar una cli para tirar comandos (o UI)
@@ -169,9 +170,10 @@ To-Do:
 - CI : Gitlab
 - Dockerizar
 - [CANCEL] Implementar vista (React?)
-- Definir configuracion (ciris?) PURE CONFIG 
+- Definir configuracion (ciris?) PURE CONFIG
 
 NTH:
+
 - Configurar logger de http4s para ver RequestLogs y ResponseLogs
 - Configurar healtcheck route que pinguee el estado los appResources
 - Unificar Category index para tener las distintas extensiones
@@ -180,6 +182,6 @@ NTH:
 
 Elegi agregar los codecs en el dominio vs crear vistas del dominio en la capa de presentacion
 
-Http dto -> action dto -> model 
+Http dto -> action dto -> model
 
 Definir userparam como parte de http
