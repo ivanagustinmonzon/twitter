@@ -23,7 +23,7 @@ class WhoIsFollowingDynamoIT extends CatsEffectSuite {
       val follows = FollowsClient.make(client)
       val whosFollowing = WhoIsFollowing.make(follows, users)
       val register = RegisterUser.make(users)
-      val follow = FollowUser.make(follows)
+      val follow = FollowUser.make(follows, users)
 
       for {
         _ <- cleanUsersTable(client)

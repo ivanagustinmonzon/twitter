@@ -1,6 +1,6 @@
 package ar.katas.actions
 
-import ar.katas.model.Follows
+import ar.katas.model.{Follows, Users}
 import ar.katas.model.following.{FolloweeId, FollowerId}
 import ar.katas.model.user.Nickname
 import cats.effect.IO
@@ -10,10 +10,11 @@ trait FollowUser {
 }
 
 object FollowUser {
-  def make(follows: Follows): FollowUser =
+  def make(follows: Follows, users: Users): FollowUser =
     (followerId: Nickname, followeeId: Nickname) =>
-      follows.persistFollowing(
-        FollowerId(followerId.value),
-        FolloweeId(followeeId.value)
-      )
+      users.get(followeeId) *> users.get(followerId) *>
+        follows.persistFollowing(
+          FollowerId(followerId.value),
+          FolloweeId(followeeId.value)
+        )
 }

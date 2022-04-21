@@ -11,10 +11,6 @@ trait UpdateUser {
 object UpdateUser {
   def make(users: Users): UpdateUser =
     (user: User) =>
-      users
-        .exists(user.nickname)
-        .ifM(
-          ifTrue = users.update(user),
-          ifFalse = IO.raiseError(UserNotFound(user.nickname))
-        )
+      users.get(user.nickname) *>
+        users.update(user)
 }

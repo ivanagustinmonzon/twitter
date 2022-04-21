@@ -22,7 +22,7 @@ class FollowUserDynamoIT extends CatsEffectSuite {
       val users = UsersClient.make(jclient)
       val follows = FollowsClient.make(jclient)
       val register = RegisterUser.make(users)
-      val follow = FollowUser.make(follows)
+      val follow = FollowUser.make(follows, users)
 
       for {
         _ <- cleanUsersTable(jclient)

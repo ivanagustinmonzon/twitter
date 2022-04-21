@@ -1,10 +1,9 @@
 package ar.katas
 
-import ar.katas.actions.{RequestTweets, TweetMessage}
+import ar.katas.actions.TweetMessage
 import ar.katas.infrastructure.persistence.inmemory.TweetsInMemory
-import ar.katas.model.tweet.{Tweet, TweetId}
+import ar.katas.model.Users
 import ar.katas.model.user._
-import ar.katas.model.{Tweets, tweet}
 import cats.effect.IO
 import munit.CatsEffectSuite
 
@@ -14,7 +13,8 @@ class TweetMessageTest extends CatsEffectSuite {
 
     for {
       tweets <- TweetsInMemory.make
-      tweetMessage = TweetMessage.make(tweets)
+      users = new FakeOkUsers()
+      tweetMessage = TweetMessage.make(tweets, users)
       message = "Hello twitter!"
 
       _ <- tweetMessage.exec(user.nickname, message)
@@ -22,4 +22,16 @@ class TweetMessageTest extends CatsEffectSuite {
     } yield assert(usrTweets.head.message == message)
 
   }
+}
+
+private class FakeOkUsers extends Users {
+  override def get(nickname: Nickname): IO[User] = IO(
+    User(Username("foo"), nickname)
+  )
+
+  override def persist(user: User): IO[Unit] = ???
+
+  override def exists(id: Nickname): IO[Boolean] = ???
+
+  override def update(user: User): IO[Unit] = ???
 }

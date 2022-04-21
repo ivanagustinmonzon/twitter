@@ -1,6 +1,10 @@
 package ar.katas.modules
 
-import ar.katas.infrastructure.http.routes.{FollowRoutes, UserRoutes}
+import ar.katas.infrastructure.http.routes.{
+  FollowRoutes,
+  TweetRoutes,
+  UserRoutes
+}
 import cats.effect.IO
 import cats.syntax.all._
 import org.http4s.implicits.http4sKleisliResponseSyntaxOptionT
@@ -24,7 +28,10 @@ sealed abstract class HttpApi private (services: AppServices) {
     UserRoutes(services.registerUser, services.updateUser).routes
   private val followRoutes =
     FollowRoutes(services.followUser, services.whoIsFollowing).routes
-  private val appRoutes = userRoutes <+> followRoutes
+  private val tweetRoutes =
+    TweetRoutes(services.tweetMessage, services.requestTweets).routes
+
+  private val appRoutes = userRoutes <+> followRoutes <+> tweetRoutes
 
   private val loggers: HttpApp[IO] => HttpApp[IO] = {
     { http: HttpApp[IO] =>

@@ -19,7 +19,7 @@ class TweetMessageDynamoIT extends CatsEffectSuite {
       val users = UsersClient.make(jclient)
       val tweets = TweetsClient.make(jclient)
       val register = RegisterUser.make(users)
-      val tweetMessage = TweetMessage.make(tweets)
+      val tweetMessage = TweetMessage.make(tweets, users)
       val message = "Hello twitter, IT"
 
       for {

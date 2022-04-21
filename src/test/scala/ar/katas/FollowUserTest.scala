@@ -17,7 +17,7 @@ class FollowUserTest extends CatsEffectSuite {
       users <- UsersInMemory.make
       follows <- FollowsInMemory.make
       register = RegisterUser.make(users)
-      follow = FollowUser.make(follows)
+      follow = FollowUser.make(follows, users)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)

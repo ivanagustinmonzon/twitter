@@ -26,7 +26,7 @@ final case class FollowRoutes(
       followee
         .as[FolloweeParam]
         .flatMap { followeeId =>
-          followUser.exec(followeeId.toDomain, Nickname(followerId))
+          followUser.exec(Nickname(followerId), followeeId.toDomain)
         }
         .flatMap(_ => NoContent())
         .handleErrorWith { case UserNotFound(_) =>

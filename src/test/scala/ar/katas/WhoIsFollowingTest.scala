@@ -20,7 +20,7 @@ class WhoIsFollowingTest extends CatsEffectSuite {
       follows <- FollowsInMemory.make
       whosFollowing = WhoIsFollowing.make(follows, users)
       register = RegisterUser.make(users)
-      follow = FollowUser.make(follows)
+      follow = FollowUser.make(follows, users)
 
       _ <- register.exec(john)
       _ <- register.exec(jake)

@@ -8,7 +8,7 @@ object Main extends IOApp.Simple {
 
   def run: IO[Unit] = program
 
-  def program: IO[Unit] = {
+  def program: IO[Unit] =
     HttpServerConfig
       .make(
         host = "localhost",
@@ -26,6 +26,5 @@ object Main extends IOApp.Simple {
           }
           .useForever
       }
-  }
 
 }

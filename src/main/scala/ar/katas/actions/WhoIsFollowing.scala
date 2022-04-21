@@ -13,11 +13,12 @@ trait WhoIsFollowing {
 object WhoIsFollowing {
   def make(follows: Follows, users: Users): WhoIsFollowing =
     (followerId: Nickname) =>
-      follows
-        .getFollowees(FollowerId(followerId.value))
-        .flatMap(followees =>
-          followees.traverse(followeeId =>
-            users.get(Nickname(followeeId.value))
+      users.get(followerId) *>
+        follows
+          .getFollowees(FollowerId(followerId.value))
+          .flatMap(followees =>
+            followees.traverse(followeeId =>
+              users.get(Nickname(followeeId.value))
+            )
           )
-        )
 }

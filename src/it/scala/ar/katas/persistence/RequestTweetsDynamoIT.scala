@@ -1,9 +1,10 @@
 package ar.katas.persistence
 
-import ar.katas.actions.{RequestTweets, TweetMessage}
+import ar.katas.actions.{RegisterUser, RequestTweets, TweetMessage}
 import ar.katas.infrastructure.persistence.dynamodb.{
   DynamoDbResource,
-  TweetsClient
+  TweetsClient,
+  UsersClient
 }
 import ar.katas.model.user._
 import munit.CatsEffectSuite
@@ -14,13 +15,17 @@ class RequestTweetsDynamoIT extends CatsEffectSuite {
 
     val client = DynamoDbResource.localDefault
     client.use { jclient =>
+      val users = UsersClient.make(jclient)
       val tweets = TweetsClient.make(jclient)
-      val tweetMessage = TweetMessage.make(tweets)
-      val requestTweets = RequestTweets.make(tweets)
+
+      val registerUser = RegisterUser.make(users)
+      val tweetMessage = TweetMessage.make(tweets, users)
+      val requestTweets = RequestTweets.make(tweets, users)
       val message = "Hello twitter!"
 
       for {
         _ <- cleanUsersTable(jclient)
+        _ <- registerUser.exec(user)
         _ <- tweetMessage.exec(user.nickname, message)
         _ <- tweetMessage.exec(user.nickname, message)
         _ <- tweetMessage.exec(user.nickname, message)

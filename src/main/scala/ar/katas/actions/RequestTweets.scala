@@ -1,6 +1,6 @@
 package ar.katas.actions
 
-import ar.katas.model.Tweets
+import ar.katas.model.{Tweets, Users}
 import ar.katas.model.tweet.Tweet
 import ar.katas.model.user.Nickname
 import cats.effect.IO
@@ -10,7 +10,9 @@ trait RequestTweets {
 }
 
 object RequestTweets {
-  def make(tweets: Tweets): RequestTweets =
-    (userId: Nickname) => tweets.getTweets(userId)
+  def make(tweets: Tweets, users: Users): RequestTweets =
+    (userId: Nickname) =>
+      users.get(userId) *>
+        tweets.getTweets(userId)
 
 }
