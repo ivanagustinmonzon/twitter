@@ -13,11 +13,11 @@ object FollowsInMemory {
               idFollower: FollowerId,
               idFollowee: FolloweeId
           ): IO[Unit] =
-            database.update(m => {
+            database.update { m =>
               val updatedList =
                 idFollowee :: m.getOrElse(idFollower, List.empty)
               m + (idFollower -> updatedList)
-            })
+            }
 
           override def isFollowing(
               idFollower: FollowerId,

@@ -46,14 +46,9 @@ You will build a basic Twitter application following a set of restrictions on ea
 
 * A user can tweet. Other users can read all tweets of a user knowing his username.
 
-#### Assumptions
+# Design and implementation details
 
-- A user can register any nickname (not just '@' starting)
-- A user cannot change its nickname
-- Persistence shared across multiple fibers (concurrent)
-- Cannot store user list of followers/following in a single item (scalability). i.e following and followed are separated entities in persistence
-
-# Persistence model
+## Persistence model
 
 ### Entities and relationships
 
@@ -84,11 +79,11 @@ You will build a basic Twitter application following a set of restrictions on ea
 
 ### data modeling
 
-| Entity   | Paritition key (PK) |        Sort key (SK) |                              Attributes |
-|----------|:-------------------:|---------------------:|----------------------------------------:|
-| User     |  USER#\<nickname>   |     USER#\<nickname> |                        realname: String |
-| Followed |  USER#\<nickname>   | FOLLOWED#\<nickname> |                       timestamp: String | max= 400kb
-| Tweet*   |  USER#\<nickname>   |    TWEET#\<tweet-id> | message: String,<br/> timestamp: String |
+| Entity   | Paritition key (PK) |        Sort key (SK) |                                Attributes |
+|----------|:-------------------:|---------------------:|------------------------------------------:|
+| User     |  USER#\<nickname>   |     USER#\<nickname> |                          realname: String |
+| Followed |  USER#\<nickname>   | FOLLOWED#\<nickname> |                         timestamp: String | max= 400kb
+| Tweet*   |  USER#\<nickname>   |    TWEET#\<tweet-id> |   message: String,<br/> timestamp: String |
 
 | Paritition key (PK) |      Sort key (SK) |                   Attributes |
 |:-------------------:|-------------------:|-----------------------------:|
@@ -157,6 +152,35 @@ GET /users/<nickname>/follows
     500: service error
 ```
 
+Tweet message:
+
+```
+POST /user/<nickname>/tweet
+  {
+    - message: string
+  }
+  
+  returns:
+    201: ok
+    404: user not found
+    500: service error
+```
+Request tweets:
+
+```
+GET /user/<nickname>/tweet
+
+  returns:
+    200: ok
+      [{
+        - id: string
+        - message: string
+      }]
+    404: user not found
+    500: service error
+```
+
+
 To-Do:
 
 - [DONE] Terminar la relacion el modelado de base
@@ -180,8 +204,9 @@ NTH:
 - Definir una Query.empty[FooIndex] que solo empiece con FOO# (reemplazar la actual)
 - Correr it tests en paralelo
 
-Elegi agregar los codecs en el dominio vs crear vistas del dominio en la capa de presentacion
+Assumptions
 
-Http dto -> action dto -> model
-
-Definir userparam como parte de http
+- A user can register any nickname (not just '@' starting)
+- A user cannot change its nickname
+- Persistence shared across multiple fibers (concurrent)
+- Cannot store user list of followers/following in a single item (scalability). i.e following and followed are separated entities in persistence
