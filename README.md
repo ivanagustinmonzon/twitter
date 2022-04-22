@@ -190,14 +190,13 @@ To-Do:
 - [DONE] Conectar las queries de usuarios y follows con DynamoDB
 - [DONE] Test integracion
 - [DONE] Implementar capa de presentacion http con http4s
-- [INPR] Implementar Tweet feature
-- CI : Gitlab
+- [DONE] Implementar Tweet feature
+- [INPR] CI : Gitlab
 - Dockerizar
-- [CANCEL] Implementar vista (React?)
-- Definir configuracion (ciris?) PURE CONFIG
 
 NTH:
 
+- Definir configuracion (ciris?) PURE CONFIG
 - Configurar logger de http4s para ver RequestLogs y ResponseLogs
 - Configurar healtcheck route que pinguee el estado los appResources
 - Unificar Category index para tener las distintas extensiones

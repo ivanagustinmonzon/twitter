@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "026232ec-db73-4070-81fb-b497729992bc",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"realname\": \"chueco\",\n    \"nickname\": \"@ch\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"realname\": \"chuchu\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9000/users/@ch",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users",
+						"@ch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"followeeId\": \"@jackregistered\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9000/users/@ch/follows/",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users",
+						"@ch",
+						"follows",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Who is user following",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/users/@ch/follows/",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users",
+						"@ch",
+						"follows",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tweet message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Hello twitter\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/users/@ch/tweets",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users",
+						"@ch",
+						"tweets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve user tweets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/users/@ch/tweets",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"users",
+						"@ch",
+						"tweets"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
