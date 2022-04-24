@@ -1,12 +1,29 @@
 # twitter-kata
 
+# Run and build
+
+##docker:
+#### Prerequisites
+    - docker-compose
+#### Run
+    docker-compose -f app/docker-compose.yml up
+
+##local:
+#### Prerequisites
+    - java >= 8
+    - sbt 1.5.8
+    - dynamodb (can be used from docker-compose)
+    - [temporal] add in /etc/hosts 
+        `0.0.0.0 dynamodb-local`
+#### Run
+    sbt run
+
+
 # Description #
 
 The goal of this kata is to practice Clean Architecture driven by Outside-in TDD.
 
 You will build a basic Twitter application following a set of restrictions on each iteration. Try to apply DRY, KISS, and SOLID principles during the process.
-
-**Recommendation:** create a Maven project using IntelliJ IDEA.
 
 ## Restrictions
 
@@ -192,7 +209,7 @@ To-Do:
 - [DONE] Implementar capa de presentacion http con http4s
 - [DONE] Implementar Tweet feature
 - [DONE] CI : Gitlab
-- [INPR] Dockerizar
+- [DONE] Dockerizar
 
 NTH:
 

@@ -1,21 +1,11 @@
-#!/bin/zsh
+#!/bin/sh
 
-# aws dynamodb create-table \
-#     --table-name Music \
-#     --attribute-definitions \
-#         AttributeName=Artist,AttributeType=S \
-#         AttributeName=SongTitle,AttributeType=S \
-#     --key-schema \
-#         AttributeName=Artist,KeyType=HASH \
-#         AttributeName=SongTitle,KeyType=RANGE \
-#     --provisioned-throughput \
-#         ReadCapacityUnits=5,WriteCapacityUnits=5 \
-#     --table-class STANDARD
+#aws dynamodb delete-table --table-name Users --endpoint-url http://dynamodb-local:8000
 
-#aws dynamodb delete-table --table-name User --endpoint-url http://localhost:8000
-#
+echo "Creating Users table for twitter application"
+
 aws dynamodb create-table \
-    --table-name User \
+    --table-name Users \
     --attribute-definitions \
         AttributeName=nickname,AttributeType=S \
         AttributeName=category,AttributeType=S \
@@ -25,6 +15,5 @@ aws dynamodb create-table \
     --provisioned-throughput \
         ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --table-class STANDARD \
-    --endpoint-url http://0.0.0.0:8000
+    --endpoint-url http://dynamodb-local:8000
 
-echo "created table User"

@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   dynamodb-local:
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-    image: "amazon/dynamodb-local:latest"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data "
+    image: "amazon/dynamodb-local:1.18.0"
     container_name: dynamodb-local
     ports:
       - "8000:8000"
@@ -10,7 +10,19 @@ services:
       - "./docker/dynamodb:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
 
-   twitter:
-     image: "twitter:latest"
-     ports:
-       - "9000:9000"
+  twitter:
+    image: "twitter:latest"
+    ports:
+      - "9000:9000"
+    env_file: ./vars.env
+
+  table_creation_cli:
+    image: "amazon/aws-cli:2.5.8"
+    env_file: ./vars.env
+    depends_on:
+      - "dynamodb-local"
+    entrypoint: >
+      sh -cx "chmod +x /home/scripts/*.sh && /home/scripts/wait-for-it.sh dynamodb-local:8000 -- /home/scripts/table_creation.sh"
+    volumes:
+      - "./table_creation.sh:/home/scripts/table_creation.sh"
+      - "./wait-for-it.sh:/home/scripts/wait-for-it.sh"

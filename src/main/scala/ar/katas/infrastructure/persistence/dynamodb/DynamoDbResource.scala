@@ -19,7 +19,7 @@ object DynamoDbResource {
             .builder()
             .credentialsProvider(cred)
             .region(Region.EU_WEST_1)
-            .endpointOverride(new URI("http://localhost:8000"))
+            .endpointOverride(new URI("http://dynamodb-local:8000"))
             .build()
         }
       }
