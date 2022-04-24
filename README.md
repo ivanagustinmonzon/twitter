@@ -191,8 +191,8 @@ To-Do:
 - [DONE] Test integracion
 - [DONE] Implementar capa de presentacion http con http4s
 - [DONE] Implementar Tweet feature
-- [INPR] CI : Gitlab
-- Dockerizar
+- [DONE] CI : Gitlab
+- [INPR] Dockerizar
 
 NTH:
 

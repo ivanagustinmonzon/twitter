@@ -4,9 +4,16 @@ ThisBuild / scalaVersion := "2.13.5"
 val http4sVersion = "1.0.0-M23"
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(Defaults.itSettings)
+  .enablePlugins(DockerPlugin)
+  .enablePlugins(AshScriptPlugin)
   .settings(
     name := "twitter",
+//    scalafmtOnCompile := true,
+    Defaults.itSettings,
+    Docker / packageName := "twitter",
+    dockerBaseImage := "openjdk:11-jre-slim-buster",
+    dockerExposedPorts := Seq(9000),
+    dockerUpdateLatest := true,
     libraryDependencies ++= Seq(
       // Functional effects
       "org.typelevel" %% "cats-effect" % "3.3.9",

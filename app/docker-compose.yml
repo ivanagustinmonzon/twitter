@@ -9,3 +9,8 @@ services:
     volumes:
       - "./docker/dynamodb:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
+
+   twitter:
+     image: "twitter:latest"
+     ports:
+       - "9000:9000"
